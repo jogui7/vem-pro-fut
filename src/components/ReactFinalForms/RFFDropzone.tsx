@@ -72,7 +72,7 @@ type RFFDropzoneProps = {
   fileMaxSize?: number;
   acceptTypes: AcceptType[];
   title?: string;
-  formatValue: (files: File | Array<File>) => Promise<string>;
+  formatValue: (files: File) => Promise<string>;
   onClear?: () => void;
 };
 
@@ -138,7 +138,7 @@ const RFFDropzone = ({
 
     setfilesUrl(newfilesUrl);
 
-    const proccessedFiles = await formatValue(multiple ? files : files[0]);
+    const proccessedFiles = await formatValue(files[0]);
 
     fileInput.onChange(proccessedFiles);
 

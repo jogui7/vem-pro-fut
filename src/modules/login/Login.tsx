@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { Form } from 'react-final-form';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Button } from '@material-ui/core';
 import ButtonWithFeedback, { ButtonStatusVariant } from '../../components/ButtonWithFeedback';
 import Logo from '../../components/Logo';
@@ -19,25 +19,24 @@ import useFirebase from '../../hooks/useFirebase';
 
 const wrongCredentialsMessage = 'Usuário ou senha inválidos';
 
+const loginSchema = Yup.object().shape({
+  email: Yup.string()
+    .trim()
+    .required('Obrigatório')
+    .email('email inválido'),
+  password: Yup.string().trim().required('Obrigatório'),
+});
+
+const validate = async (values: any) => yupValidation(loginSchema)({ ...values });
+
 const Login = () => {
   const [loginStatus, setLoginStatus] = useState<ButtonStatusVariant>('normal');
   const loginClasses = useLoginStyles();
-  const firebase = useFirebase();
+  const { auth } = useFirebase();
   const history = useHistory();
-
-  const loginSchema = Yup.object().shape({
-    email: Yup.string()
-      .trim()
-      .required('Obrigatório')
-      .email('email inválido'),
-    password: Yup.string().trim().required('Obrigatório'),
-  });
-
-  const validate = async (values: any) => yupValidation(loginSchema)({ ...values });
 
   const formHandleSubmit = async ({ email, password }: { email: string, password: string }) => {
     setLoginStatus('loading');
-    const auth = getAuth();
     try {
       await signInWithEmailAndPassword(auth, email, password);
       setLoginStatus('success');
@@ -46,7 +45,7 @@ const Login = () => {
     }
   };
 
-  if (getAuth(firebase).currentUser) {
+  if (auth.currentUser) {
     return <Redirect to="/" />;
   }
 

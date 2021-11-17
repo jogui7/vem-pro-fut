@@ -111,8 +111,8 @@ const AppWrap = ({ children, menuItems }: AppWrapProps) => {
         </div>
       </Drawer>
 
-      <main ref={mainRef} key={location.pathname}>
-        <div className={classes.fullHeight}>{children}</div>
+      <main ref={mainRef} key={location.pathname} className={classes.fullHeight}>
+        {children}
       </main>
     </>
   );

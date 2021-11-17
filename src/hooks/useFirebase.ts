@@ -1,4 +1,7 @@
+import { getStorage } from 'firebase/storage';
 import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 const useFirebase = () => {
   const firebaseConfig = {
@@ -10,7 +13,17 @@ const useFirebase = () => {
     appId: '1:177049543023:web:5212612a3e6e4f60aac89a',
   };
 
-  return initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const storage = getStorage(app);
+  const firestore = getFirestore(app);
+
+  return {
+    app,
+    auth,
+    storage,
+    firestore,
+  };
 };
 
 export default useFirebase;

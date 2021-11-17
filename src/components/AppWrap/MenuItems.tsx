@@ -10,25 +10,26 @@ import LogoutIcon from '@material-ui/icons/ExitToApp';
 import classnames from 'classnames';
 import React, { useState } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
-import { getAuth, signOut } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import useFirebase from '../../hooks/useFirebase';
 import { formatCompleteName } from '../../utils/formatters';
 import { MenuItemModel } from './appWrap.types';
 import useMenuItemsStyles from './menuItemsStyles';
+import { useApplicationContext } from '../../modules/context/ApplicationContext';
 
 type MenuItemsProps = {
   items: MenuItemModel[];
 };
 
 const MenuItems = ({ items }: MenuItemsProps) => {
+  const [userMenuOpened, setUserMenuOpened] = useState(false);
   const classes = useMenuItemsStyles();
+  const { auth } = useFirebase();
+  const { state } = useApplicationContext();
   const location = useLocation();
   const history = useHistory();
-  const [userMenuOpened, setUserMenuOpened] = useState(false);
-  const firebase = useFirebase();
 
   const handleLogout = async () => {
-    const auth = getAuth(firebase);
     await signOut(auth);
     history.push('/login');
   };
@@ -87,8 +88,8 @@ const MenuItems = ({ items }: MenuItemsProps) => {
                   onClick={() => setUserMenuOpened(!userMenuOpened)}
                 >
                   <Grid item xs="auto">
-                    <Avatar alt="profile">
-                      J
+                    <Avatar alt="profile" src={state.user?.avatar}>
+                      {state?.user?.name && state.user.name[0]}
                     </Avatar>
                   </Grid>
                   <Grid item xs>
@@ -96,10 +97,10 @@ const MenuItems = ({ items }: MenuItemsProps) => {
                       <Grid item xs={12}>
                         <Tooltip
                           className={classnames(classes.bold, classes.profile)}
-                          title={formatCompleteName('João', 'Guis')}
-                          titaria-label={formatCompleteName('João', 'Guis')}
+                          title={formatCompleteName(state.user?.name)}
+                          titaria-label={formatCompleteName(state.user?.name)}
                         >
-                          <Typography>{formatCompleteName('João', 'Guis')}</Typography>
+                          <Typography>{formatCompleteName(state.user?.name)}</Typography>
                         </Tooltip>
                       </Grid>
                     </Grid>

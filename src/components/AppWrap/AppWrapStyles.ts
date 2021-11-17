@@ -81,7 +81,7 @@ const ApplicationStyles = (theme: Theme) =>
       },
     },
     fullHeight: {
-      height: `calc(100% - ${theme.mixins.toolbar.minHeight}px)`,
+      height: '100%',
     },
     menuColor: {
       color: theme.palette.text.secondary,

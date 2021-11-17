@@ -6,7 +6,8 @@ import { useState } from 'react';
 import { Form } from 'react-final-form';
 import { Redirect, useHistory } from 'react-router-dom';
 import * as yup from 'yup';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { collection, doc, setDoc } from 'firebase/firestore';
 import { Button } from '@material-ui/core';
 import ButtonWithFeedback, { ButtonStatusVariant } from '../../components/ButtonWithFeedback';
 import Logo from '../../components/Logo';
@@ -16,13 +17,23 @@ import yupValidation from '../../lib/yupValidation';
 import useFirebase from '../../hooks/useFirebase';
 import useLoginStyles from '../login/useLoginStyles';
 
+type SignUpData = {
+  email: string;
+  name: string;
+  password: string;
+  confirmPassword: string;
+};
+
 const SignUp = () => {
   const [signUpStatus, setSignUpStatus] = useState<ButtonStatusVariant>('normal');
   const loginClasses = useLoginStyles();
-  const firebase = useFirebase();
+  const { auth, firestore } = useFirebase();
   const history = useHistory();
 
   const loginSchema = yup.object().shape({
+    name: yup.string()
+      .trim()
+      .required('Obrigatório'),
     email: yup.string()
       .trim()
       .required('Obrigatório')
@@ -38,18 +49,22 @@ const SignUp = () => {
 
   const validate = async (values: any) => yupValidation(loginSchema)({ ...values });
 
-  const formHandleSubmit = async ({ email, password }: { email: string, password: string }) => {
+  const formHandleSubmit = async ({ email, name, password }: SignUpData) => {
     setSignUpStatus('loading');
-    const auth = getAuth();
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const { user } = await createUserWithEmailAndPassword(auth, email, password);
+
+      const users = collection(firestore, 'users');
+
+      await setDoc(doc(users, user.uid), { email, name });
+
       setSignUpStatus('success');
     } catch (e) {
       setSignUpStatus('error');
     }
   };
 
-  if (getAuth(firebase).currentUser) {
+  if (auth.currentUser) {
     return <Redirect to="/" />;
   }
 
@@ -69,6 +84,14 @@ const SignUp = () => {
                 {({ handleSubmit }) => (
                   <form onSubmit={handleSubmit}>
                     <Grid container spacing={2} direction="column">
+                      <Grid item>
+                        <RFFTextField
+                          fullWidth
+                          label="Nome"
+                          name="name"
+                          variant="outlined"
+                        />
+                      </Grid>
                       <Grid item>
                         <RFFTextField
                           fullWidth

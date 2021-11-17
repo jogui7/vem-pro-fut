@@ -3,7 +3,7 @@ import { vemProFutGreen, titleHeight, vemProFutGrayBackground } from './Theme';
 
 export const upperTitleSize = 10;
 
-const usevemProFutStyles = makeStyles(
+const useVemProFutStyles = makeStyles(
   (theme: Theme) =>
     createStyles({
       clickable: {
@@ -142,18 +142,8 @@ const usevemProFutStyles = makeStyles(
       addButtonMargin: {
         marginBottom: theme.spacing(12),
       },
-      tableContainer: {
-        paddingLeft: theme.spacing(1),
-        paddingRight: theme.spacing(1),
-        '& .MuiTableRow-root': {
-          height: theme.spacing(6),
-          '& .MuiTableCell-root:first-child': {
-            paddingLeft: theme.spacing(1),
-          },
-          '& .MuiTableCell-root:last-child': {
-            paddingRight: theme.spacing(1),
-          },
-        },
+      container: {
+        padding: theme.spacing(3),
       },
       tableRow: {
         '& .tableRowHoverAction': {
@@ -246,4 +236,4 @@ const usevemProFutStyles = makeStyles(
   { classNamePrefix: 'vemProFut' },
 );
 
-export default usevemProFutStyles;
+export default useVemProFutStyles;

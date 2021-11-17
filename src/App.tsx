@@ -30,6 +30,7 @@ const styles = () => ({
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
+      backgroundAttachment: 'fixed',
     },
   },
 });

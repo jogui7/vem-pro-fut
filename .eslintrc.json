@@ -45,6 +45,7 @@
       "react/react-in-jsx-scope": "off",
       "react/jsx-props-no-spreading": "off",
       "arrow-parens": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/ban-types": "off",
       "react/no-array-index-key": "off",
