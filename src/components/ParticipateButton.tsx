@@ -16,56 +16,56 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const ConnectionButton = ({ userId }: { userId: string }) => {
+const ParticipateButton = ({ postId }: { postId: string }) => {
   const { firestore } = useFirebase();
   const { state } = useApplicationContext();
-  const [hasConnection, setHasConnection] = useState(false);
+  const [isParticipating, setIsParticipating] = useState(false);
   const [hover, setHover] = useState(false);
   const classes = useStyles();
 
-  const getConnection = useCallback(async () => {
+  const getParticipating = useCallback(async () => {
     if (state?.user) {
-      const connection = collection(firestore, 'users', state.user.id, 'connections');
-      const connectionDoc = doc(connection, userId);
-      const connectionDocSnap = await getDoc(connectionDoc);
+      const participantsCol = collection(firestore, 'posts', postId, 'users');
+      const participantsDoc = doc(participantsCol, state.user.id);
+      const participantsDocSnap = await getDoc(participantsDoc);
 
-      if (connectionDocSnap.exists()) {
-        setHasConnection(true);
+      if (participantsDocSnap.exists()) {
+        setIsParticipating(true);
       }
     }
   }, [state?.user]);
 
   useEffect(() => {
-    getConnection();
-  }, [getConnection]);
+    getParticipating();
+  }, [getParticipating]);
 
   const handleConnect = async (e: React.SyntheticEvent) => {
     prevent(e);
     if (state.user) {
-      const connectionCol = collection(firestore, 'users', state.user.id, 'connections');
-      const connectionDoc = doc(connectionCol, userId);
+      const participantsCol = collection(firestore, 'posts', postId, 'users');
+      const participantsDoc = doc(participantsCol, state.user.id);
 
-      await setDoc(connectionDoc, {
-        userId,
+      await setDoc(participantsDoc, {
+        ...state.user,
       });
 
-      setHasConnection(true);
+      setIsParticipating(true);
     }
   };
 
   const handleDisconnect = async (e: React.SyntheticEvent) => {
     prevent(e);
     if (state.user) {
-      const connectionCol = collection(firestore, 'users', state.user.id, 'connections');
-      const connectionDoc = doc(connectionCol, userId);
+      const participantsCol = collection(firestore, 'posts', postId, 'users');
+      const participantsDoc = doc(participantsCol, state.user.id);
 
-      await deleteDoc(connectionDoc);
+      await deleteDoc(participantsDoc);
 
-      setHasConnection(false);
+      setIsParticipating(false);
     }
   };
 
-  if (hasConnection) {
+  if (isParticipating) {
     return (
       <Button
         variant="contained"
@@ -86,4 +86,4 @@ const ConnectionButton = ({ userId }: { userId: string }) => {
   );
 };
 
-export default ConnectionButton;
+export default ParticipateButton;

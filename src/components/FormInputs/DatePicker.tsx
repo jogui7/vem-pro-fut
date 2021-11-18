@@ -1,4 +1,4 @@
-import { KeyboardDatePicker, KeyboardDatePickerProps, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { DateTimePicker, DateTimePickerProps, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core';
 import classnames from 'classnames';
 import moment from 'moment';
@@ -18,11 +18,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const DatePicker = ({ className, ...props }: KeyboardDatePickerProps) => {
+const DatePicker = ({ className, ...props }: DateTimePickerProps) => {
   const classes = useStyles();
   return (
     <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} locale="pt-br">
-      <KeyboardDatePicker
+      <DateTimePicker
         {...props}
         DialogProps={{ className: classes.dialog }}
         className={classnames(classes.root, className)}

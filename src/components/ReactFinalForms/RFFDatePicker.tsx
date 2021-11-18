@@ -2,7 +2,7 @@ import React from 'react';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { FieldValidator } from 'final-form';
 import { Field } from 'react-final-form';
-import { KeyboardDatePickerProps } from '@material-ui/pickers';
+import { DateTimePickerProps } from '@material-ui/pickers';
 import DatePicker from '../FormInputs/DatePicker';
 
 type RFFDatePickerProps = {
@@ -14,7 +14,7 @@ type RFFDatePickerProps = {
   valueFormatter?: (date: MaterialUiPickersDate) => string | null;
   inputVariant?: 'standard' | 'outlined' | 'filled';
   variant?: 'dialog' | 'inline' | 'static';
-} & KeyboardDatePickerProps;
+} & DateTimePickerProps;
 
 const RFFDatePicker = ({
   name, validate, valueFormatter, ...otherProps

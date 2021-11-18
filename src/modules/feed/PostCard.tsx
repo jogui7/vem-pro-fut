@@ -6,6 +6,7 @@ import ParticipateButton from '../../components/ParticipateButton';
 import useFirebase from '../../hooks/useFirebase';
 import useVemProFutStyles from '../../useVemProFutStyles';
 import { formatDateToString } from '../../utils/utils';
+import { useApplicationContext } from '../context/ApplicationContext';
 import { Post } from './feed.types';
 
 type PostCardProps = {
@@ -29,6 +30,7 @@ const PostCard = ({
   const classes = useStyles();
   const vemProFutClasses = useVemProFutStyles();
   const { app } = useFirebase();
+  const { state } = useApplicationContext();
 
   return (
     <Card className={classes.card} elevation={0}>
@@ -43,7 +45,7 @@ const PostCard = ({
           />
         </Grid>
         <Grid item xs={4}>
-          <Link to="/post/aaaaa" className={vemProFutClasses.linkDisguised}>
+          <Link to={`/post/${post.id}`} className={vemProFutClasses.linkDisguised}>
             <Box p={3} height="100%" display="flex" flexDirection="column" justifyContent="space-between">
               <Grid container spacing={3}>
                 <Grid item xs={12}>
@@ -60,7 +62,7 @@ const PostCard = ({
                   </Typography>
                 </Grid>
               </Grid>
-              <ParticipateButton userId="aaaa" />
+              {post.ownerId !== state?.user?.id && <ParticipateButton postId={post.id} />}
             </Box>
           </Link>
         </Grid>

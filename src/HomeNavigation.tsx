@@ -5,6 +5,7 @@ import useMenuItems from './components/AppWrap/useMenuItems';
 import { ApplicationContextProvider, useApplicationContext } from './modules/context/ApplicationContext';
 import Explore from './modules/explore/Explore';
 import Feed from './modules/feed/Feed';
+import PostDetailsPage from './modules/feed/PostDetailsPage';
 import Profile from './modules/profile/Profile';
 
 const Home = () => {
@@ -18,6 +19,7 @@ const Home = () => {
     <AppWrap menuItems={menuItems}>
       <Switch>
         <Route path="/" exact component={Feed} />
+        <Route path="/post/:id" component={PostDetailsPage} />
         <Route path="/perfil" exact component={Profile} />
         <Route path="/perfil/:id" component={Profile} />
         <Route path="/explorar" component={Explore} />
