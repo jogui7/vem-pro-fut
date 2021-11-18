@@ -76,13 +76,13 @@ const ConnectionButton = ({ userId }: { userId: string }) => {
         onMouseOut={() => setHover(false)}
         className={classes.button}
       >
-        {hover ? 'desconectar' : 'conectado'}
+        {hover ? 'cancelar' : 'confirmado'}
       </Button>
     );
   }
 
   return (
-    <Button variant="outlined" color="primary" fullWidth onClick={handleConnect}>conectar</Button>
+    <Button variant="outlined" color="primary" fullWidth onClick={handleConnect}>participar</Button>
   );
 };
 

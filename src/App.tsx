@@ -7,6 +7,7 @@ import PrivateRoute from './lib/PrivateRoute';
 import Login from './modules/login/Login';
 import SignUp from './modules/signup/SignUp';
 import theme from './Theme';
+import 'moment/locale/pt-br';
 
 const styles = () => ({
   '@global': {

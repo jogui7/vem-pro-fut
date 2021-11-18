@@ -12,8 +12,6 @@ import ExploreCard from './ExploreCard';
 const useStyles = makeStyles((theme) => ({
   grid: {
     maxWidth: theme.spacing(150),
-    width: '100%',
-    borderRadius: theme.spacing(2),
   },
 }));
 
@@ -33,7 +31,7 @@ const Explore = () => {
       const data = exploreSnap.docs.map(doc => ({ ...doc.data(), id: doc.id })) as User[];
       setUsers(data);
     }
-  }, [state?.user, setUsers]);
+  }, [state?.user]);
 
   useEffect(() => {
     fetchUsers();

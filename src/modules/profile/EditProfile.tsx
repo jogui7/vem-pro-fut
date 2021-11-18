@@ -78,7 +78,7 @@ const EditProfile = ({ toggleEdit, getUser, initialValues }: EditProfileProps) =
       const data = await response.json();
       setUFs(data.map((uf: { id: string; sigla: string; }) => ({ value: uf.id, label: uf.sigla })));
     }
-  }, [setUFs]);
+  }, []);
 
   useEffect(() => {
     fetchUFs();

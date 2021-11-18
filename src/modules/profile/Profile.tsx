@@ -50,7 +50,7 @@ const Profile = () => {
         setUser(data);
       }
     }
-  }, [setUser, state?.user, id]);
+  }, [state?.user, id]);
 
   useEffect(() => {
     getUser();
